@@ -85,7 +85,7 @@ bool PluginHelper::loadTypekitAndTransports(const std::string& typekitName)
         return true;
 
     //Supported transport types
-    static const std::vector<std::string> knownTransports = {"corba", "mqueue", "typelib"};
+    static const std::vector<std::string> knownTransports = {"corba", "mqueue", "typelib", "ros"};
 
     PkgConfigRegistryPtr pkgreg = PkgConfigRegistry::get();
     RTT::plugin::PluginLoader &loader(*RTT::plugin::PluginLoader::Instance());
@@ -103,6 +103,15 @@ bool PluginHelper::loadTypekitAndTransports(const std::string& typekitName)
 
         if(!loader.loadPlugins(libdir + "/orocos/gnulinux/"))
             throw std::runtime_error("Error, failed to load rtt basis plugins");
+       
+        if(!loader.loadLibrary(libdir + "/orocos/gnulinux/types/librtt-transport-corba-gnulinux.so"))
+            throw std::runtime_error("Error, failed to load rtt basis typekits");
+
+        if(!loader.loadLibrary(libdir + "/orocos/gnulinux/types/librtt-transport-mqueue-gnulinux.so"))
+            throw std::runtime_error("Error, failed to load rtt basis typekits");
+
+        if(!loader.loadLibrary(libdir + "/orocos/gnulinux/types/librtt-typekit-gnulinux.so"))
+            throw std::runtime_error("Error, failed to load rtt basis typekits");
 
         return true;
     }
