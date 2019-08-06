@@ -98,9 +98,6 @@ bool PluginHelper::loadTypekitAndTransports(const std::string& typekitName)
         }
         std::string libdir;
         pkg.getVariable("libdir", libdir);
-        if(!loader.loadTypekits(libdir + "/orocos/gnulinux/"))
-            throw std::runtime_error("Error, failed to load rtt basis typekits");
-
         if(!loader.loadPlugins(libdir + "/orocos/gnulinux/"))
             throw std::runtime_error("Error, failed to load rtt basis plugins");
        
