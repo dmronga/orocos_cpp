@@ -86,7 +86,8 @@ public:
     std::vector<std::string> getRegisteredDeploymentNames();
     std::vector<std::string> getRegisteredTypekitNames();
     std::vector<std::string> getRegisteredOrogenNames();
-    static PkgConfigRegistryPtr get();
+    static PkgConfigRegistryPtr get(bool initialize = false);
+    bool addFile(const std::string& filepath);
 
 protected:
     //! To what kind of package a Pkgconfig file is related to is determined by its filename (NOT path, must be a file name!)
@@ -98,7 +99,6 @@ protected:
     bool isDeploymentPkg(const std::string& filename, std::string& deploymentName);
     bool isOrocosRTTPkg(const std::string &filename, std::string &arch);
 
-    bool addFile(const std::string& filepath);
     void scan(const std::vector<std::string>& searchPaths);
 
     //Containers to store PkgConfig files for different categories of libraries used

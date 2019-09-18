@@ -119,11 +119,12 @@ std::vector<std::string> orocos_cpp::PkgConfigRegistry::getRegisteredOrogenNames
     return ret;
 }
 
-orocos_cpp::PkgConfigRegistryPtr orocos_cpp::PkgConfigRegistry::get()
+orocos_cpp::PkgConfigRegistryPtr orocos_cpp::PkgConfigRegistry::get(bool initialize)
 {
     if(!__pkgcfgreg){
         __pkgcfgreg = PkgConfigRegistryPtr(new PkgConfigRegistry());
-        __pkgcfgreg->initialize();
+        if(initialize)
+            __pkgcfgreg->initialize();
     }
     return __pkgcfgreg;
 }

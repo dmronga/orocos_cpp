@@ -43,6 +43,8 @@ public:
      * @return Vector of individual elements. With the input given about would result in ["/hello/world", "/tolle/sache"]
      */
     static std::vector<std::string> vectorizeTokenSeparatedString(const std::string& data, std::string token);
+
+    static std::string find_file(const std::string filename, const std::vector<std::string>& paths);
 };
 }//end of namespace
 #endif // PKGCONFIGHELPER_H

@@ -96,6 +96,7 @@ bool Deployment::loadPkgConfigFile(const std::string& deploymentName)
     PkgConfigRegistryPtr pkgreg = PkgConfigRegistry::get();
     PkgConfig pkg;
 
+    pkgreg->addFile(PkgConfigHelper::find_file("orogen-" + deploymentName + ".pc", PkgConfigHelper::getSearchPathsFromEnvVar()));
     if(!pkgreg->getDeployment(deploymentName, pkg))
         throw std::runtime_error("PkgConfig file for deployment " + deploymentName + " was not loaded." );
 
