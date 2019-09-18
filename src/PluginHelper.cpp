@@ -27,6 +27,8 @@ std::vector< std::string > PluginHelper::getNeededTypekits(const std::string& co
         return it->second;
 
     PkgConfigRegistryPtr pkgreg = PkgConfigRegistry::get();
+    pkgreg->addFile(PkgConfigHelper::find_file(componentName + "-tasks-" + xstr(OROCOS_TARGET) + ".pc", PkgConfigHelper::getSearchPathsFromEnvVar()));
+
     OrogenPkgConfig pkg;
     if(!pkgreg->getOrogen(componentName, pkg)){
         throw std::runtime_error("Could not load pkgConfig file for typekit for component " + componentName);
@@ -88,6 +90,19 @@ bool PluginHelper::loadTypekitAndTransports(const std::string& typekitName)
     static const std::vector<std::string> knownTransports = {"corba", "mqueue", "typelib", "ros"};
 
     PkgConfigRegistryPtr pkgreg = PkgConfigRegistry::get();
+
+    if(typekitName == "rtt-types"){
+        pkgreg->addFile(PkgConfigHelper::find_file(std::string("orocos-rtt-") + xstr(OROCOS_TARGET) + ".pc", PkgConfigHelper::getSearchPathsFromEnvVar()));
+        for(auto k : knownTransports)
+            pkgreg->addFile(PkgConfigHelper::find_file("orocos-rtt-" + k + "-" + xstr(OROCOS_TARGET) + ".pc", PkgConfigHelper::getSearchPathsFromEnvVar()));
+    }
+    else{
+        pkgreg->addFile(PkgConfigHelper::find_file(typekitName + "-typekit-" + xstr(OROCOS_TARGET) + ".pc", PkgConfigHelper::getSearchPathsFromEnvVar()));
+        pkgreg->addFile(PkgConfigHelper::find_file(typekitName + "-tasks-" + xstr(OROCOS_TARGET) + ".pc", PkgConfigHelper::getSearchPathsFromEnvVar()));
+        for(auto k : knownTransports)
+            pkgreg->addFile(PkgConfigHelper::find_file(typekitName + "-transport-" + k + "-" + xstr(OROCOS_TARGET) + ".pc", PkgConfigHelper::getSearchPathsFromEnvVar()));
+    }
+
     RTT::plugin::PluginLoader &loader(*RTT::plugin::PluginLoader::Instance());
     PkgConfig pkg;
     if(typekitName == "rtt-types" || typekitName == "orocos" )

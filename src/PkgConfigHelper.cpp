@@ -38,7 +38,7 @@ std::vector<std::string> PkgConfigHelper::getSearchPathsFromEnvVar()
 }
 
 //Search for a file in paths by filename. Returns empty string if file could not be found.
-std::string find_file(const std::string filename, const std::vector<std::string>& paths)
+std::string PkgConfigHelper::find_file(const std::string filename, const std::vector<std::string>& paths)
 {
     std::string filepath = "";
     for(const std::string &path: paths)
